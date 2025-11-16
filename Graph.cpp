@@ -3,7 +3,6 @@
 #include<string>
 #include<fstream>
 using namespace std;
-//Creation of Graph (City Map)
 Graph* createGraph(int numLocations){
     Graph* graph = new Graph;
     graph->numLocations = numLocations; 
@@ -15,20 +14,17 @@ Graph* createGraph(int numLocations){
     return graph;
 }
 
-//Saving the Graph(City Map) to a Binary File
 void saveGraph(string filename, Graph*& graph){
     ofstream fout(filename, ios::binary);
     if (!fout){
         cout<<"Cannot Write the Graph in File!\n";
         return;
     }
-    //Saving Total Number of Locations
     fout.write((char*)&graph->numLocations, sizeof(graph->numLocations));
     //Saving Distance b/w Two Locations
     for(int i =0; i<graph->numLocations;i++){
         fout.write((char*)graph->distances[i],sizeof(int)*graph->numLocations);
     }
-    //Saving Location Names
     for(int i =0; i<graph->numLocations;i++){
         int length = graph->locations[i].size();
         fout.write((char*)&length,sizeof(length));
@@ -37,23 +33,19 @@ void saveGraph(string filename, Graph*& graph){
     fout.close();
 }
 
-//Loading the Graph(City Map) from Binary File
 void loadGraph(string filename, Graph*& graph) {
     ifstream fin(filename,ios::binary);
     if(!fin){
         cout<<"File cannot be Loaded!";
         return;
     }
-    //Load Number of Locations
+
     int num;
     fin.read((char*)&num,sizeof(num));
     graph = createGraph(num);
-    
-    //Load Distances
     for(int i =0; i<num;i++){
         fin.read((char*)graph->distances[i],sizeof(int)*num);
     }
-    //Read Location Names
     for(int i =0; i<num;i++){
         int length;
         fin.read((char*)&length,sizeof(length));
@@ -66,7 +58,6 @@ void loadGraph(string filename, Graph*& graph) {
     fin.close();
 }
 
-//Printing the Entire Graph(City Map)
 void printGraph(Graph* graph) {
     cout<<"Locations:- \n";
     for(int i =0;i<graph->numLocations;i++){
@@ -83,7 +74,6 @@ void printGraph(Graph* graph) {
     }
 }
 
-// Cleaning up Graph
 void freeGraph(Graph*& graph) {
     for (int i = 0; i < graph->numLocations; i++)
         delete[] graph->distances[i];
