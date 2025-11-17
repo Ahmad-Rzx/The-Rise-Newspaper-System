@@ -13,7 +13,6 @@ Graph* createGraph(int numLocations){
     graph->locations = new string[numLocations];
     return graph;
 }
-
 void saveGraph(string filename, Graph*& graph){
     ofstream fout(filename, ios::binary);
     if (!fout){
@@ -21,7 +20,6 @@ void saveGraph(string filename, Graph*& graph){
         return;
     }
     fout.write((char*)&graph->numLocations, sizeof(graph->numLocations));
-    //Saving Distance b/w Two Locations
     for(int i =0; i<graph->numLocations;i++){
         fout.write((char*)graph->distances[i],sizeof(int)*graph->numLocations);
     }
@@ -32,14 +30,12 @@ void saveGraph(string filename, Graph*& graph){
     }
     fout.close();
 }
-
 void loadGraph(string filename, Graph*& graph) {
     ifstream fin(filename,ios::binary);
     if(!fin){
         cout<<"File cannot be Loaded!";
         return;
     }
-
     int num;
     fin.read((char*)&num,sizeof(num));
     graph = createGraph(num);
@@ -57,7 +53,6 @@ void loadGraph(string filename, Graph*& graph) {
     }
     fin.close();
 }
-
 void printGraph(Graph* graph) {
     cout<<"Locations:- \n";
     for(int i =0;i<graph->numLocations;i++){
@@ -73,7 +68,6 @@ void printGraph(Graph* graph) {
         cout<<"\n";
     }
 }
-
 void freeGraph(Graph*& graph) {
     for (int i = 0; i < graph->numLocations; i++)
         delete[] graph->distances[i];
