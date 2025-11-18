@@ -1,7 +1,23 @@
 #include <iostream>
 #include <string>
+#include <cstdlib> 
+#include <ctime>   
 #include "ManagementMenu.h"
 using namespace std;
+void calculateDistances(Graph* graph){
+    srand(time(0));
+    for(int i = 0; i < graph->numLocations; i++){
+        for(int j = 0; j < graph->numLocations; j++){
+            if(i == j)
+                graph->distances[i][j] = 0;
+            else if (i < j){
+                int dist = rand() % 20 + 1;
+                graph->distances[i][j] = dist;
+                graph->distances[j][i] = dist;
+            }
+        }
+    }
+}
 int main() {
     ManagementMenu menu;
     int numLocations;
@@ -14,49 +30,37 @@ int main() {
         cout << "Location " << (i + 1) << ": ";
         getline(cin, menu.graph->locations[i]);
     }
-    bool program_executing = true;
-    while (program_executing) {
-        cout << "\n--- Newspaper Delivery Management System ---\n";
-        cout << "1. Add Client\n";
-        cout << "2. Add Delivery Person\n";
-        cout << "3. Add Delivery\n";
-        cout << "4. Print All Clients\n";
-        cout << "5. Print All Delivery Persons\n";
-        cout << "6. Print All Deliveries\n";
-        cout << "7. Save System\n";
-        cout << "8. Load System\n";
-        cout << "9. Exit\n";
-        cout << "Enter your choice: ";
+    calculateDistances(menu.graph);
+    cout << "\nDistance matrix calculated automatically!\n";
+    printGraph(menu.graph);
+    bool running = true;
+    while (running) {
+        cout<<"\n--- Newspaper Delivery Management ---\n";
+        cout<<"1. Add Client\n2. Add Delivery Person\n3. Add Delivery\n";
+        cout<<"4. Print All Clients\n5. Print All Delivery Persons\n6. Print All Deliveries\n";
+        cout<<"7. Save System\n8. Load System\n9. Exit\n";
+        cout<<"Enter your choice: ";
         int choice;
-        cin >> choice;
-        if (choice == 1) {
-            addClient(&menu);
-        } else if (choice == 2) {
-            addDeliveryPerson(&menu);
-        } else if (choice == 3) {
-            addDelivery(&menu);
-        } else if (choice == 4) {
-            printAllClients(&menu);
-        } else if (choice == 5) {
-            printAllDeliveryPersons(&menu);
-        } else if (choice == 6) {
-            printAllDeliveries(&menu);
-        } else if (choice == 7) {
-            string filename;
-            cout << "Enter filename prefix to save system: ";
-            cin >> filename;
+        cin>>choice;
+        if(choice == 1) addClient(&menu);
+        else if(choice == 2) addDeliveryPerson(&menu);
+        else if(choice == 3) addDelivery(&menu);
+        else if(choice == 4) printAllClients(&menu);
+        else if(choice == 5) printAllDeliveryPersons(&menu);
+        else if(choice == 6) printAllDeliveries(&menu);
+        else if(choice == 7) {
+            string filename; cout << "Enter filename prefix: "; cin >> filename;
             saveSystem(&menu, filename);
-        } else if (choice == 8) {
-            string filename;
-            cout << "Enter filename prefix to load system: ";
-            cin >> filename;
-            loadSystem(&menu, filename);
-        } else if (choice == 9) {
-            program_executing = false;
-            cout << "Exiting system...\n";
-        } else {
-            cout << "Invalid choice! Try again.\n";
         }
+        else if(choice == 8) {
+            string filename; cout << "Enter filename prefix: "; cin >> filename;
+            loadSystem(&menu, filename);
+        }
+        else if(choice == 9) {
+            running = false;
+            cout << "Exiting system...\n";
+        }
+        else cout << "Invalid choice! Try again.\n";
     }
     freeSystem(&menu);
     return 0;
