@@ -1,66 +1,85 @@
-# The Rise Newspaper System
+# Newspaper Delivery Management System
 
-The Rise Newspaper System is a comprehensive management solution for newspaper organizations, designed to streamline newsroom operations, facilitate editorial tasks, and automate routine workflows. Built predominantly in C++ with additional C components, the system aims for high performance and reliability in handling publishing tasks.
-
-## Features
-
-- **Article Management**: Create, edit, approve, and publish articles with version control.
-- **User Roles & Permissions**: Differentiate access rights for editors, journalists, admin staff, and contributors.
-- **Editorial Workflow**: Track articles from assignment through writing, editing, and approval to final publication.
-- **Archiving**: Automatically archive old articles and editions for reference and compliance.
-- **Search & Reporting**: Full-text search on articles and analytics on publication data.
-- **Subscription and Distribution**: Manage subscriber database, delivery logistics, and payment statuses.
-- **Customizable Templates**: Support for template-based design of print and digital editions.
-
-## Tech Stack
-
-- **C++** (96.3%): Core business logic, data structures, and main application features.
-- **C** (3.7%): Low-level functions, system integration, or performance-critical utilities.
-
-## Getting Started
-
-### Prerequisites
-
-- C++11 (or newer) compatible compiler (e.g., g++, clang++)
-- Standard C compiler
-- Make or CMake for build automation
-- [Optional] SQLite, MySQL, or other database integration (dependent on configuration)
-- Git
-
-### Build Instructions
-
-```bash
-git clone https://github.com/Ahmad-Rzx/The-Rise-Newspaper-System.git
-cd The-Rise-Newspaper-System
-make
-# or for CMake
-mkdir build && cd build
-cmake ..
-make
-```
-
-### Run
-
-```bash
-./the-rise-newspaper-system
-```
-
-## Usage
-
-Once running, the system will prompt for user authentication and provide menu options according to user roles. Editors can assign articles, journalists can submit drafts, and admins can generate reports. See the `docs/` folder (if available) for more detailed user instructions.
-
-## Contributing
-
-Contributions are welcome! To contribute:
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin feature/new-feature`)
-5. Open a Pull Request
-
-
+A C++ console-based management system for newspaper delivery services. Manage city locations, clients, delivery personnel, and assignments efficiently. The system leverages Dijkstra’s algorithm to calculate the shortest routes for deliveries.
 
 ---
 
-*The Rise Newspaper System — Modern tools for modern journalism.*
+## Features
+
+- **City Graph Management:**  
+  Add locations in a city with automatic computation of distances between all locations.
+
+- **Client Management:**  
+  Register clients with unique IDs, names, and associated city locations.
+
+- **Delivery Personnel Management:**  
+  Add delivery personnel with unique IDs, names, and track their current locations.
+
+- **Delivery Assignments:**  
+  Assign deliveries to clients and personnel. Automatically computes the shortest delivery route and distance.
+
+- **Data Persistence:**  
+  Save and load the complete state (graph, clients, personnel, and deliveries) to and from binary files.
+
+---
+
+## Project Structure
+
+- `MainDriver.cpp` &mdash; Main entry point with menu-driven interface.
+- `Graph.h/cpp` &mdash; City graph, distance management, save/load routines.
+- `Client.h/cpp` &mdash; Client structure and client-related functions.
+- `DeliveryPerson.h/cpp` &mdash; Delivery personnel structure and management.
+- `Delivery.h/cpp` &mdash; Delivery assignments and Dijkstra shortest path implementation.
+- `ManagementMenu.h/cpp` &mdash; Central menu and linking logic for all modules.
+
+---
+
+## How to Compile
+
+**Requirement:** g++ (with C++11 support or later)
+
+```sh
+g++ -o NewspaperSystem MainDriver.cpp Graph.cpp Client.cpp DeliveryPerson.cpp Delivery.cpp ManagementMenu.cpp -std=c++11
+```
+
+---
+
+## How to Run
+
+- On **Windows PowerShell**:
+  ```
+  ./NewspaperSystem
+  ```
+
+- On **Command Prompt**:
+  ```
+  NewspaperSystem.exe
+  ```
+
+---
+
+## Usage Guide
+
+1. **Initialize City Graph**
+   - Enter the number of locations in your city.
+   - Enter the names for each location. Distances are calculated automatically.
+
+2. **Menu Options**
+   - Add clients
+   - Add delivery personnel
+   - Create delivery assignments (with automatic shortest path calculation)
+   - View client, personnel, or delivery details
+   - Save or load the system's entire state
+   - Exit the program
+
+---
+
+## Notes
+
+- Ensure all `.cpp` and `.h` files are in the same directory for compilation.
+- The system state is preserved between runs if you use the save/load functionality.
+- The shortest path computations for deliveries are fully automatic.
+
+---
+
+*Developed as a C++ console project for efficient and optimized management of newspaper deliveries across a city.*
