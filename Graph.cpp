@@ -13,7 +13,7 @@ Graph* createGraph(int numLocations){
     graph->locations = new string[numLocations];
     return graph;
 }
-void saveGraph(string filename, Graph*& graph){
+void saveGraph(string filename, Graph* graph){
     ofstream fout(filename, ios::binary);
     if (!fout){
         cout<<"Cannot Write the Graph in File!\n";
